@@ -1,4 +1,9 @@
+com/example/testwithsoot/MazeFuzzer$TreasureFoundException.class
+com/example/testwithsoot/analysis/DataflowFact.class
+com/example/testwithsoot/DataflowTestFuzzer$TreasureFoundException.class
 com/example/testwithsoot/Main.class
 com/example/testwithsoot/Main$1.class
 com/example/testwithsoot/A.class
 com/example/testwithsoot/analysis/DataFlowAnalysisWithSoot.class
+com/example/testwithsoot/DataflowTestFuzzer.class
+com/example/testwithsoot/MazeFuzzer.class
