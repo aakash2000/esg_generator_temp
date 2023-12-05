@@ -1,11 +1,14 @@
 package com.example.testwithsoot;
 
 import com.example.testwithsoot.analysis.DataFlowAnalysisWithSoot;
+import com.example.testwithsoot.visualizer.Visualizer;
 import soot.*;
 import soot.jimple.toolkits.callgraph.CHATransformer;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.options.Options;
+import soot.toolkits.graph.ClassicCompleteUnitGraph;
+import soot.toolkits.graph.UnitGraph;
 
 import java.util.*;
 
@@ -13,10 +16,13 @@ public class Main {
     private static Map<SootMethod, HashMap<String, String>> outFacts;
     private static int count = 0;
 
-    /*private static final String TARGET_CLASS = "com.example.testwithsoot.MazeFuzzer";*/
-    private static final String TARGET_CLASS = "com.example.testwithsoot.A";
+    private static final String TARGET_CLASS = "com.example.testwithsoot.MazeFuzzer";
+    /*private static final String TARGET_CLASS = "com.example.testwithsoot.A";*/
     /*private static final String TARGET_CLASS = "com.example.testwithsoot.DataflowTestFuzzer";*/
     /*private static final String TARGET_CLASS = "com.example.testwithsoot.DataflowTestFuzzer2";*/
+
+    /*private static final String TARGET_METHOD = "fuzzerTestOneInput";*/
+     private static final String TARGET_METHOD = "executeCommands";
 
     protected static Transformer createAnalysisTransformer() {
 
@@ -24,18 +30,6 @@ public class Main {
             @Override
             protected void internalTransform(Body body, String phaseName, Map<String, String> options) {
                 SootClass targetClass = Scene.v().getApplicationClasses().getFirst();
-                /*if (Scene.v().getEntryPoints().stream().findFirst().isPresent()) {
-                    SootMethod targetMethod = Scene.v().getEntryPoints().stream().findFirst().get();
-                    Body mainBody = targetMethod.retrieveActiveBody();
-                    DataFlowAnalysisWithSoot analysis = new DataFlowAnalysisWithSoot(mainBody);
-                    analysis.doAnalysis();
-                    if (outFacts == null) {
-                        outFacts = new java.util.HashMap<>();
-                    }
-                    if (!analysis.getFacts().isEmpty()) {
-                        outFacts.put(targetMethod, analysis.getFacts());
-                    }
-                }*/
                 if (!targetClass.getMethods().isEmpty()) {
                     final SootMethod targetMethod = targetClass.getMethods().get(count++);
                     Body mainBody = targetMethod.retrieveActiveBody();
@@ -111,6 +105,19 @@ public class Main {
                 System.out.println();
             });
         }
+
+        assert c != null;
+        if (c.getMethodByName(TARGET_METHOD).getActiveBody() != null) {
+            UnitGraph ug = new ClassicCompleteUnitGraph(c.getMethodByName(TARGET_METHOD).getActiveBody());
+            //System.out.println(ug);
+            Visualizer.v().addUnitGraph(ug, true);
+            Visualizer.v().draw();
+        }
+        // Wait for user input
+        System.out.println("Press any key to exit...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+
 
         System.exit(1);
     }

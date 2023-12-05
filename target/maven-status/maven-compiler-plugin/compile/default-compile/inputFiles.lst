@@ -3,4 +3,7 @@
 /Users/cashman/code/personal/projectWithSoot/esg_generator/src/main/java/com/example/testwithsoot/MazeFuzzer.java
 /Users/cashman/code/personal/projectWithSoot/esg_generator/src/main/java/com/example/testwithsoot/analysis/DataflowFact.java
 /Users/cashman/code/personal/projectWithSoot/esg_generator/src/main/java/com/example/testwithsoot/A.java
+/Users/cashman/code/personal/projectWithSoot/esg_generator/src/main/java/com/example/testwithsoot/visualizer/Visualizer.java
 /Users/cashman/code/personal/projectWithSoot/esg_generator/src/main/java/com/example/testwithsoot/DataflowTestFuzzer.java
+/Users/cashman/code/personal/projectWithSoot/esg_generator/src/main/java/com/example/testwithsoot/visualizer/CallGraphFilter.java
+/Users/cashman/code/personal/projectWithSoot/esg_generator/src/main/java/com/example/testwithsoot/DataflowTestFuzzer2.java

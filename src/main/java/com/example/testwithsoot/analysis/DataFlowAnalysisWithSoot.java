@@ -7,7 +7,9 @@ import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 import soot.toolkits.scalar.FlowSet;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataFlowAnalysisWithSoot extends ForwardFlowAnalysis<Unit, FlowSet<DataflowFact>> {
@@ -36,6 +38,14 @@ public class DataFlowAnalysisWithSoot extends ForwardFlowAnalysis<Unit, FlowSet<
         //System.out.println("copy"+source+dest);
     }
 
+    protected String getCharactersFromASCIIList(List<IntConstant> list) {
+        String[] ascii = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            ascii[i] = String.valueOf((char) list.get(i).value);
+        }
+        return Arrays.toString(ascii);
+    }
+
     @Override
     protected void flowThrough(FlowSet<DataflowFact> in, Unit unit, FlowSet<DataflowFact> out) {
         // Implement how data flow values flow through statements
@@ -49,8 +59,7 @@ public class DataFlowAnalysisWithSoot extends ForwardFlowAnalysis<Unit, FlowSet<
             } else if (unit instanceof SwitchStmt) {
                 LookupSwitchStmt switchStmt = (LookupSwitchStmt) unit;
                 if (switchStmt.branches()) {
-                    dataflowFacts.add(switchStmt.getKeyBox().getValue().toString(), switchStmt.getLookupValues().toString());
-                    System.out.println("Switch "+switchStmt.getKeyBox().getValue().toString()+" "+switchStmt.getLookupValues().toString());
+                    dataflowFacts.add(switchStmt.getKeyBox().getValue().toString(), getCharactersFromASCIIList(switchStmt.getLookupValues()));
                 }
             }
         } else {
@@ -64,7 +73,7 @@ public class DataFlowAnalysisWithSoot extends ForwardFlowAnalysis<Unit, FlowSet<
                 if (unit instanceof AssignStmt) {
                     AssignStmt assignStmt = (AssignStmt) unit;
                     //System.out.println("Assign "+assignStmt);
-                    dataflowFacts.add(assignStmt.getLeftOpBox().getValue().toString(), assignStmt.getRightOp().toString());
+                    //dataflowFacts.add(assignStmt.getLeftOpBox().getValue().toString(), assignStmt.getRightOp().toString());
                     // Analyze assignment statement
                 } else if (unit instanceof InvokeStmt) {
                     InvokeStmt invokeStmt = (InvokeStmt) unit;
